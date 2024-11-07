@@ -5,7 +5,7 @@
 #include <Eigen/Eigen>
 #include <pcl/point_types.h>
 #include <pcl/point_cloud.h>
-#include <fast_lio/Pose6D.h>
+#include <fast_lio_localization/Pose6D.h>
 #include <sensor_msgs/Imu.h>
 #include <nav_msgs/Odometry.h>
 #include <tf/transform_broadcaster.h>
@@ -33,7 +33,7 @@ using namespace Eigen;
 #define STD_VEC_FROM_EIGEN(mat)  vector<decltype(mat)::Scalar> (mat.data(), mat.data() + mat.rows() * mat.cols())
 #define DEBUG_FILE_DIR(name)     (string(string(ROOT_DIR) + "Log/"+ name))
 
-typedef fast_lio::Pose6D Pose6D;
+typedef fast_lio_localization::Pose6D Pose6D;
 typedef pcl::PointXYZINormal PointType;
 typedef pcl::PointCloud<PointType> PointCloudXYZI;
 typedef vector<PointType, Eigen::aligned_allocator<PointType>>  PointVector;
@@ -203,7 +203,7 @@ bool esti_normvector(Matrix<T, 3, 1> &normvec, const PointVector &point, const T
         A(j,2) = point[j].z;
     }
     normvec = A.colPivHouseholderQr().solve(b);
-    
+
     for (int j = 0; j < point_num; j++)
     {
         if (fabs(normvec(0) * point[j].x + normvec(1) * point[j].y + normvec(2) * point[j].z + 1.0f) > threshold)
